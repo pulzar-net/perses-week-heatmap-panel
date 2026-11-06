@@ -1,0 +1,1 @@
+{ "kind": "PulzrWeekHeatmapPanel", "spec": { "format": { "unit": "percent", "decimalPlaces": 0 }, "max": 100 } }
