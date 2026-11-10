@@ -21,6 +21,8 @@ export interface PulzrWeekHeatmapPanelOptions {
   max?: number;
   /** The cells' color, any CSS color, instead of the theme's primary color. */
   color?: string;
+  /** The color of a cell of nothing, any CSS color, instead of the theme's hover shade. */
+  emptyColor?: string;
   /** The opacity of the smallest value above zero, from 0 to 1; a cell reads `floor + (1 - floor) × value / max`. */
   floor?: number;
   /** Hour labels as `00:00` (the default) or `12a`, `3a`, … */

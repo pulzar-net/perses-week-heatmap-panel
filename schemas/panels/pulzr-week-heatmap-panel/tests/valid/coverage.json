@@ -3,6 +3,7 @@
   "spec": {
     "format": { "unit": "decimal", "decimalPlaces": 0 },
     "color": "rgb(192, 38, 211)",
+    "emptyColor": "#2a3441",
     "floor": 0.12,
     "hours": "12h",
     "overlay": { "label": "Officers on shift", "format": { "unit": "decimal", "decimalPlaces": 1 } },

@@ -24,7 +24,7 @@ export function PulzrWeekHeatmapPanelComponent({ queryResults, spec }: PulzrWeek
   const { rows, max, overlay: topOverlay } = buildGrid(cells, spec.max);
   const color = spec.color || theme.palette.primary.main;
   const floor = spec.floor ?? 0;
-  const empty = theme.palette.action.hover;
+  const empty = spec.emptyColor || theme.palette.action.hover;
   const error = theme.palette.error.main;
   const bar = { height: '3px', borderRadius: '1px', bgcolor: 'text.primary', opacity: 0.7 } as const;
   const hatch = {

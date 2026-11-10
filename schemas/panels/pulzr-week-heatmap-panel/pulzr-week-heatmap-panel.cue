@@ -11,6 +11,7 @@ spec: close({
 	max?: number & >0
 	// The cells' color, any CSS color, instead of the theme's primary color.
 	color?: string & !=""
+	emptyColor?: string & !=""
 	// The opacity of the smallest value above zero: a cell reads floor + (1 - floor) × value / max.
 	floor?: number & >=0 & <=1
 	// Hour labels as 00:00 (the default) or 12a, 3a, …

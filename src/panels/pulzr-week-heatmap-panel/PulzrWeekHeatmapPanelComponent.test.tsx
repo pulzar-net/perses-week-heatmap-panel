@@ -49,4 +49,12 @@ describe('PulzrWeekHeatmapPanelComponent', () => {
     expect(screen.getByText('Officers on shift')).toBeInTheDocument();
     expect(screen.getByText('Violations, no one on patrol')).toBeInTheDocument();
   });
+
+  it('draws a cell of nothing in emptyColor when set', () => {
+    const view = draw(coverage, { emptyColor: 'rgb(1, 2, 3)' });
+    const empty = [...view.querySelectorAll<HTMLElement>('div')].filter(
+      (d) => getComputedStyle(d).backgroundColor === 'rgb(1, 2, 3)',
+    );
+    expect(empty).toHaveLength(1);
+  });
 });

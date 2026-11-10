@@ -25,6 +25,7 @@ All are optional.
 | `format` | How values read in the tooltip. |
 | `max` | The value drawn in full color, instead of the largest one. |
 | `color` | The cells' color, any CSS color (`#c026d3`, `rgb(192, 38, 211)`), instead of the theme's primary color. |
+| `emptyColor` | The color of a cell of nothing, any CSS color, instead of the theme's hover shade. |
 | `floor` | 0 to 1: the opacity of the smallest value above zero, so a cell reads `floor + (1 - floor) × value / max`. Zero stays empty. |
 | `hours` | `24h` (the default) labels every third hour `00:00`, `03:00`, …; `12h` labels them `12a`, `3a`, `6a`, `9a`, `12p`, `3p`, … |
 | `overlay` | `{label, format}`: draws each cell's `overlay` as a bar along its foot, scaled to the largest overlay, and adds it to the tooltip, formatted by `format` and followed by `label` in lower case: `Mon 9a · 12 · 1.5 officers`. |
