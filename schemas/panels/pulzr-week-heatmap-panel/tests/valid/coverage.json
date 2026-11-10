@@ -1,0 +1,13 @@
+{
+  "kind": "PulzrWeekHeatmapPanel",
+  "spec": {
+    "format": { "unit": "decimal", "decimalPlaces": 0 },
+    "color": "rgb(192, 38, 211)",
+    "floor": 0.12,
+    "hours": "12h",
+    "overlay": { "label": "Officers on shift", "format": { "unit": "decimal", "decimalPlaces": 1 } },
+    "mark": { "label": "Violations, no one on patrol" },
+    "legend": { "value": "Violations" },
+    "cellHeight": 22
+  }
+}

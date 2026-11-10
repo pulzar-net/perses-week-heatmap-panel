@@ -1,4 +1,4 @@
-import { buildGrid, intensity, matrixOf } from './grid';
+import { buildGrid, cellTitle, hourLabel, intensity, matrixOf } from './grid';
 
 describe('matrixOf', () => {
   it('reads metadata.matrix and leaves out malformed cells', () => {
@@ -22,6 +22,20 @@ describe('matrixOf', () => {
       { dow: 1, hour: 0, value: 3, samples: 4 },
       { dow: 7, hour: 23, value: 0 },
     ]);
+  });
+
+  it('keeps a numeric overlay and leaves out a cell whose overlay is malformed', () => {
+    const data = {
+      series: [],
+      metadata: {
+        matrix: [
+          { dow: 1, hour: 9, value: 12, overlay: 1.5 },
+          { dow: 1, hour: 10, value: 3, overlay: 'two' },
+          { dow: 1, hour: 11, value: 3, overlay: Number.POSITIVE_INFINITY },
+        ],
+      },
+    };
+    expect(matrixOf(data)).toEqual([{ dow: 1, hour: 9, value: 12, overlay: 1.5 }]);
   });
 
   it('has nothing without a matrix', () => {
@@ -63,6 +77,17 @@ describe('buildGrid', () => {
     expect(buildGrid(cells, -5).max).toBe(40);
     expect(buildGrid([]).max).toBe(0);
   });
+
+  it('finds the largest overlay, 0 when there is none', () => {
+    expect(
+      buildGrid([
+        { dow: 1, hour: 1, value: 1, overlay: 2 },
+        { dow: 1, hour: 2, value: 1, overlay: 0.5 },
+        { dow: 1, hour: 3, value: 1 },
+      ]).overlay,
+    ).toBe(2);
+    expect(buildGrid([{ dow: 1, hour: 1, value: 1 }]).overlay).toBe(0);
+  });
 });
 
 describe('intensity', () => {
@@ -76,5 +101,55 @@ describe('intensity', () => {
 
   it('is 0 when there is no scale', () => {
     expect(intensity(5, 0)).toBe(0);
+  });
+
+  it('starts values above zero at the floor', () => {
+    expect(intensity(0, 10, 0.12)).toBe(0);
+    expect(intensity(-1, 10, 0.12)).toBe(0);
+    expect(intensity(5, 10, 0.12)).toBeCloseTo(0.56);
+    expect(intensity(10, 10, 0.12)).toBe(1);
+    expect(intensity(20, 10, 0.12)).toBe(1);
+  });
+});
+
+describe('hourLabel', () => {
+  it('reads 00:00 by default', () => {
+    expect(hourLabel(0)).toBe('00:00');
+    expect(hourLabel(9, '24h')).toBe('09:00');
+    expect(hourLabel(21)).toBe('21:00');
+  });
+
+  it('reads 12a to 11p in 12-hour form', () => {
+    expect([0, 3, 6, 9, 12, 15, 18, 21, 23].map((h) => hourLabel(h, '12h'))).toEqual([
+      '12a',
+      '3a',
+      '6a',
+      '9a',
+      '12p',
+      '3p',
+      '6p',
+      '9p',
+      '11p',
+    ]);
+  });
+});
+
+describe('cellTitle', () => {
+  it('gives the day, hour and value', () => {
+    expect(cellTitle({ dow: 3, hour: 14, value: 42 }, {})).toBe('Wed 14:00 · 42');
+    expect(cellTitle({ dow: 7, hour: 0, value: 0.5 }, { hours: '12h', format: { unit: 'percent-decimal' } })).toBe(
+      'Sun 12a · 50%',
+    );
+  });
+
+  it('adds the overlay, formatted and labelled in lower case', () => {
+    const spec = {
+      hours: '12h',
+      format: { unit: 'decimal', decimalPlaces: 0 },
+      overlay: { label: 'Officers', format: { unit: 'decimal', decimalPlaces: 1 } },
+    } as const;
+    expect(cellTitle({ dow: 1, hour: 9, value: 12, overlay: 1.5 }, spec)).toBe('Mon 9a · 12 · 1.5 officers');
+    expect(cellTitle({ dow: 1, hour: 9, value: 12 }, spec)).toBe('Mon 9a · 12 · 0.0 officers');
+    expect(cellTitle({ dow: 1, hour: 9, value: 12, overlay: 2 }, { overlay: {} })).toBe('Mon 09:00 · 12 · 2');
   });
 });
