@@ -1,5 +1,10 @@
 # Week heatmap panel for Perses
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pulzar-net/perses-week-heatmap-panel/releases/latest/download/preview-dark.png">
+  <img alt="The PulzrWeekHeatmapPanel: occupancy by weekday and hour as a grid of cells, brightest around noon" src="https://github.com/pulzar-net/perses-week-heatmap-panel/releases/latest/download/preview-light.png">
+</picture>
+
 `PulzrWeekHeatmapPanel` draws a value by weekday and hour: seven rows, Monday to Sunday, of 24 hours each, such as a parking lot's occupancy by hour of the week.
 
 ```yaml
